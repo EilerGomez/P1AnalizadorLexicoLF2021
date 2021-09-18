@@ -6,6 +6,9 @@
 package com.mycompany.proyecto1lenguajesformales2021;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 /**
@@ -18,9 +21,11 @@ public class VistaGráfica extends javax.swing.JFrame {
      * Creates new form VistaGráfica
      */
     AnalizadorTokens analizador;
+    ArchivosLeerEscribir arch;
     public VistaGráfica() {
         initComponents();
         analizador=new AnalizadorTokens(textAreaEntradaTexto);
+        arch= new ArchivosLeerEscribir();
     }
 
     /**
@@ -233,8 +238,10 @@ public class VistaGráfica extends javax.swing.JFrame {
 
     private void botonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnalizarActionPerformed
         //textAreaEntradaTexto.setText(textAreaEntradaTexto.getText());
-        analizador.iniciarAnalizador(textAreaEntradaTexto.getText());
-        salidaResultadoArea.setText(analizador.getResultadoObtenido() +"\n");
+        //se debe analizar linea por linea
+        //analizador.iniciarAnalizador(textAreaEntradaTexto.getText(),2);
+        //salidaResultadoArea.setText(analizador.getResultadoObtenido() +"\n");
+        arch.leerArchivoAnalizando(textAreaEntradaTexto.getText(), salidaResultadoArea);
         
         
     }//GEN-LAST:event_botonAnalizarActionPerformed
@@ -242,10 +249,13 @@ public class VistaGráfica extends javax.swing.JFrame {
     private void limpiarConsolaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarConsolaActionPerformed
        salidaResultadoArea.setText("");
        analizador.setResultadoObtenido("");
+       analizador.resultadoObtenido="";
+       analizador.palabra="";
+       analizador.iniciarVariables();
     }//GEN-LAST:event_limpiarConsolaActionPerformed
 
     private void botonLimpiarEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarEntradaActionPerformed
-        textAreaEntradaTexto.setText("");
+        textAreaEntradaTexto.setText("Hola");
     }//GEN-LAST:event_botonLimpiarEntradaActionPerformed
 
     /**
@@ -289,9 +299,13 @@ public class VistaGráfica extends javax.swing.JFrame {
         JFileChooser jf= new JFileChooser();
         jf.showOpenDialog(this);
         File archivo = jf.getSelectedFile();
-        if(archivo !=null || !archivo.getName().equals("")){
+        if(archivo !=null || !archivo.getName().equals("")){           
             salidaResultadoArea.setText(archivo.getAbsolutePath());
+            arch.leerArchivoDeEntrada(archivo.getAbsolutePath(),textAreaEntradaTexto,salidaResultadoArea);               
         }
+    }
+    public void leerArchivo(String ruta){
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -8,6 +8,9 @@ public final class AnalizadorTokens {
     public JTextArea areaEntrada;
     String palabra;
     int posicion = 0;
+    int errores[]=new int[2];
+    int numeroDeErrores;
+    int numeroLiena;
     int matrizTransiciones[][] = new int[8][6];
     int estadosFinalizacion[] = new int[35];
     String descripcionFinalizacion[] = new String[35];
@@ -26,10 +29,13 @@ public final class AnalizadorTokens {
         //iniciarAnalizador();
     }
 
-    public void iniciarAnalizador(String entrada) {
+    public void iniciarAnalizador(String entrada, int numLine) {
         //this.areaEntrada=entrada;
         palabra = "";
         iniciarVariables();
+        this.numeroLiena=numLine;
+        System.out.println(numLine);
+        System.out.println(numeroLiena);
         this.palabra = entrada;
         while (posicion < palabra.length()) {
             getToken();
@@ -38,6 +44,14 @@ public final class AnalizadorTokens {
 
     public String getResultadoObtenido() {
         return resultadoObtenido;
+    }
+
+    public int getNumeroLiena() {
+        return numeroLiena;
+    }
+
+    public void setNumeroLiena(int numeroLiena) {
+        this.numeroLiena = numeroLiena;
     }
 
     public void setResultadoObtenido(String resultadoObtenido) {
@@ -59,6 +73,8 @@ public final class AnalizadorTokens {
          */
         // analisis del token identificador;
         posicion=0;
+        numeroDeErrores=0;
+        palabra ="";
         matrizTransiciones[0][0] = 1;
         matrizTransiciones[1][0] = 1;
         matrizTransiciones[1][1] = 1;
@@ -244,6 +260,9 @@ public final class AnalizadorTokens {
         if (estadoActual >= 0 && caracter <= 5) {
             try {
                 resultado = matrizTransiciones[estadoActual][caracter];
+                if(resultado<0){
+                    errores[0]=posicion;
+                }
             } catch (ArrayIndexOutOfBoundsException e) {
                 resultado = -1;
             }
@@ -283,16 +302,21 @@ public final class AnalizadorTokens {
     }
 
     public void getToken() {
-        int estadoActual = 0;
+        int estadoActual = 0;      
         seguirLeyendo = true;
         char tmp;
         String token = "";
-
+       
         while ((seguirLeyendo == true) && (posicion < palabra.length())) {
             if (Character.isSpaceChar(tmp = palabra.charAt(posicion))||Character.isWhitespace (tmp=palabra.charAt(posicion))) {
                 seguirLeyendo = false;
+                
+                //setNumeroLiena(getNumeroLiena()+1);
             }else if("\n".equals(Character.toString(palabra.charAt(posicion)))){
                 seguirLeyendo=false;
+                //setNumeroLiena(getNumeroLiena()+1);
+              
+                
             } 
             else {
                 int estadoTemporal = getSiguienteEstado(estadoActual, getIntCaracter(tmp));
@@ -303,10 +327,15 @@ public final class AnalizadorTokens {
                 estadoActual = estadoTemporal;
                 System.out.println(tmp);
             }
+           
             posicion++;
         }
-        String mensaje = ("------[Terminó en el estado: " + getEstadoAceptacion(estadoActual) + " token actual: " + token + "]------");
         
+        String mensaje = ("------[ Terminó en el estado: " + getEstadoAceptacion(estadoActual) + " token actual: " + token +" ]------");
+        String parte[]=getEstadoAceptacion(estadoActual).split(",");
+        if(parte[0].equals("Error")){
+            mensaje=mensaje +"en la linea: " + numeroLiena  + "; +Colomna: " + errores[0];
+        }
         setResultadoObtenido(getResultadoObtenido() + "\n"+lineas(mensaje)+"\n|" + mensaje+
                                                             "|\n"+lineas(mensaje)+"\n" );
         System.out.println(mensaje + "\n");
@@ -321,5 +350,7 @@ public final class AnalizadorTokens {
         }
         return lineas;
     }
+    
+    
 
 }
