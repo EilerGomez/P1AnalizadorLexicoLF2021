@@ -46,6 +46,7 @@ public final class VistaGráfica extends javax.swing.JFrame {
         jTabbedPane2 = new javax.swing.JTabbedPane();
         panelReportes = new javax.swing.JPanel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
+        jButton1 = new javax.swing.JButton();
         panelPrincipal = new javax.swing.JPanel();
         labelEntradaTexto = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -71,21 +72,30 @@ public final class VistaGráfica extends javax.swing.JFrame {
 
         panelReportes.setBackground(java.awt.Color.black);
 
+        jButton1.setText("jButton1");
+
         javax.swing.GroupLayout panelReportesLayout = new javax.swing.GroupLayout(panelReportes);
         panelReportes.setLayout(panelReportesLayout);
         panelReportesLayout.setHorizontalGroup(
             panelReportesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelReportesLayout.createSequentialGroup()
-                .addGap(339, 339, 339)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelReportesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelReportesLayout.createSequentialGroup()
+                        .addGap(339, 339, 339)
+                        .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelReportesLayout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(jButton1)))
+                .addContainerGap(476, Short.MAX_VALUE))
         );
         panelReportesLayout.setVerticalGroup(
             panelReportesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelReportesLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(27, 27, 27)
+                .addComponent(jButton1)
+                .addContainerGap(715, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Reportes", panelReportes);
@@ -339,6 +349,7 @@ public final class VistaGráfica extends javax.swing.JFrame {
     private javax.swing.JButton botonGuardarArchivo;
     private javax.swing.JButton botonLimpiarEntrada;
     private javax.swing.JButton cargarDatos;
+    private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
