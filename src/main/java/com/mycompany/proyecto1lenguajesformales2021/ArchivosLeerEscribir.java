@@ -6,9 +6,11 @@
 package com.mycompany.proyecto1lenguajesformales2021;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,13 +55,26 @@ public class ArchivosLeerEscribir {
         }        
     }
     public void leerArchivoAnalizando(String texto, JTextArea salidaResultado){
-        String lienas[]= texto.split("\n");
-        int contadorLineas=0;
-        for(String linea: lienas){
-            contadorLineas++;
-            analizador.iniciarAnalizador(linea, contadorLineas);
-            salidaResultado.setText(analizador.getResultadoObtenido());
+        try{
+                String lienas[]= texto.split("\n");
+                int contadorLineas=0;
+            for(String linea: lienas){
+                contadorLineas++;
+                analizador.iniciarAnalizador(linea, contadorLineas);
+                salidaResultado.setText(analizador.getResultadoObtenido());
+               
+            }
+        }catch(ArrayIndexOutOfBoundsException w){
+            
         }
-        
+    }
+    public void guardarArchivo(String texto, String lugar){
+        try {
+            BufferedWriter escribir = new BufferedWriter(new FileWriter(new File(lugar + ".txt")));
+            escribir.write(texto);
+            escribir.close();
+        } catch (IOException ex) {
+            Logger.getLogger(ArchivosLeerEscribir.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

@@ -10,12 +10,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JTextArea;
 
 /**
  *
  * @author raymond
  */
-public class VistaGráfica extends javax.swing.JFrame {
+public final class VistaGráfica extends javax.swing.JFrame {
 
     /**
      * Creates new form VistaGráfica
@@ -24,7 +25,11 @@ public class VistaGráfica extends javax.swing.JFrame {
     ArchivosLeerEscribir arch;
     public VistaGráfica() {
         initComponents();
-        analizador=new AnalizadorTokens(textAreaEntradaTexto);
+        inicializarVariables();
+       
+    }
+    public void inicializarVariables(){
+        analizador=new AnalizadorTokens();
         arch= new ArchivosLeerEscribir();
     }
 
@@ -52,6 +57,7 @@ public class VistaGráfica extends javax.swing.JFrame {
         salidaResultadoArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         limpiarConsola = new javax.swing.JButton();
+        botonGuardarArchivo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Analizador léxico");
@@ -146,6 +152,13 @@ public class VistaGráfica extends javax.swing.JFrame {
             }
         });
 
+        botonGuardarArchivo.setText("Guardar Archivo");
+        botonGuardarArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarArchivoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
         panelPrincipalLayout.setHorizontalGroup(
@@ -161,20 +174,23 @@ public class VistaGráfica extends javax.swing.JFrame {
                 .addComponent(jScrollPane1)
                 .addContainerGap())
             .addGroup(panelPrincipalLayout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(botonLimpiarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(botonAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
-            .addGroup(panelPrincipalLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(jLabel1)
-                .addGap(4, 4, 4)
-                .addComponent(limpiarConsola, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(panelPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2)
+                .addContainerGap())
+            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                        .addComponent(botonGuardarArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonLimpiarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelPrincipalLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(4, 4, 4)
+                        .addComponent(limpiarConsola, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelPrincipalLayout.setVerticalGroup(
@@ -189,7 +205,8 @@ public class VistaGráfica extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonLimpiarEntrada)
-                    .addComponent(botonAnalizar))
+                    .addComponent(botonAnalizar)
+                    .addComponent(botonGuardarArchivo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -242,21 +259,24 @@ public class VistaGráfica extends javax.swing.JFrame {
         //analizador.iniciarAnalizador(textAreaEntradaTexto.getText(),2);
         //salidaResultadoArea.setText(analizador.getResultadoObtenido() +"\n");
         arch.leerArchivoAnalizando(textAreaEntradaTexto.getText(), salidaResultadoArea);
+        System.out.println(textAreaEntradaTexto.getText());
         
         
     }//GEN-LAST:event_botonAnalizarActionPerformed
 
     private void limpiarConsolaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarConsolaActionPerformed
-       salidaResultadoArea.setText("");
-       analizador.setResultadoObtenido("");
-       analizador.resultadoObtenido="";
-       analizador.palabra="";
-       analizador.iniciarVariables();
+        salidaResultadoArea.setText("");
+                inicializarVariables();
+
     }//GEN-LAST:event_limpiarConsolaActionPerformed
 
     private void botonLimpiarEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarEntradaActionPerformed
-        textAreaEntradaTexto.setText("Hola");
+        textAreaEntradaTexto.setText("");
     }//GEN-LAST:event_botonLimpiarEntradaActionPerformed
+
+    private void botonGuardarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarArchivoActionPerformed
+        guardarArchivo();
+    }//GEN-LAST:event_botonGuardarArchivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -291,7 +311,10 @@ public class VistaGráfica extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaGráfica().setVisible(true);
+               VistaGráfica vista= new VistaGráfica();
+                       vista.setVisible(true);
+                       vista.setResizable(false);
+                       vista.setLocationRelativeTo(null);
             }
         });
     }
@@ -304,12 +327,16 @@ public class VistaGráfica extends javax.swing.JFrame {
             arch.leerArchivoDeEntrada(archivo.getAbsolutePath(),textAreaEntradaTexto,salidaResultadoArea);               
         }
     }
-    public void leerArchivo(String ruta){
-        
+    public void guardarArchivo(){
+        JFileChooser guardar = new JFileChooser();
+        guardar.setApproveButtonText("Guardar");
+        guardar.showSaveDialog(null);
+        arch.guardarArchivo(textAreaEntradaTexto.getText(),guardar.getSelectedFile().toString());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAnalizar;
+    private javax.swing.JButton botonGuardarArchivo;
     private javax.swing.JButton botonLimpiarEntrada;
     private javax.swing.JButton cargarDatos;
     private javax.swing.JDesktopPane jDesktopPane1;

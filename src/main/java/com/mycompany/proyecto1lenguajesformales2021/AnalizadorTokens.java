@@ -5,29 +5,21 @@ import javax.swing.JTextArea;
 
 public final class AnalizadorTokens {
 
-    public JTextArea areaEntrada;
-    String palabra;
+   // public JTextArea areaEntrada;
+    String palabra="";
+    String mensaje;
+    String movimiento;
     int posicion = 0;
     int errores[]=new int[2];
     int numeroDeErrores;
     int numeroLiena;
     int matrizTransiciones[][] = new int[8][6];
-    int estadosFinalizacion[] = new int[35];
-    String descripcionFinalizacion[] = new String[35];
+    int estadosFinalizacion[] = new int[36];
+    String descripcionFinalizacion[] = new String[36];
     //int estadoActual = 0;
     boolean seguirLeyendo = true;
 
     String resultadoObtenido = "";
-
-    AnalizadorTokens(JTextArea entrada) {
-        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        this.areaEntrada = entrada;
-
-        //iniciarVariables();
-        //Scanner teclado = new Scanner(System.in);
-        //System.out.println("Ingrese la palabra: ");
-        //iniciarAnalizador();
-    }
 
     public void iniciarAnalizador(String entrada, int numLine) {
         //this.areaEntrada=entrada;
@@ -43,7 +35,7 @@ public final class AnalizadorTokens {
     }
 
     public String getResultadoObtenido() {
-        return resultadoObtenido;
+        return this.resultadoObtenido;
     }
 
     public int getNumeroLiena() {
@@ -58,9 +50,9 @@ public final class AnalizadorTokens {
         this.resultadoObtenido = resultadoObtenido;
     }
 
-    public static void main(String args[]) {
-        AnalizadorTokens analizadorTokens = new AnalizadorTokens();
-    }
+    /* public static void main(String args[]) {
+    AnalizadorTokens analizadorTokens = new AnalizadorTokens();
+    }*/
 
     //ANÁLISIS DE LOS TOKENS; 
     public void iniciarVariables() {
@@ -75,6 +67,8 @@ public final class AnalizadorTokens {
         posicion=0;
         numeroDeErrores=0;
         palabra ="";
+        mensaje="";
+        movimiento="";
         matrizTransiciones[0][0] = 1;
         matrizTransiciones[1][0] = 1;
         matrizTransiciones[1][1] = 1;
@@ -100,6 +94,7 @@ public final class AnalizadorTokens {
         //analisis de errores:
         matrizTransiciones[1][2] = -2;
         matrizTransiciones[2][4] = -3;
+        matrizTransiciones[2][0] = -31;
         matrizTransiciones[2][2] = -3;
         matrizTransiciones[2][5] = -4;
         matrizTransiciones[1][3] = -5;
@@ -239,19 +234,22 @@ public final class AnalizadorTokens {
 
         estadosFinalizacion[34] = -30;
         descripcionFinalizacion[34] = "Error, signo de puntuación después de signo de agrupación";
+        
+        estadosFinalizacion[35]=-31;
+        descripcionFinalizacion[35]="Error, letra después del signo de agrupación";
     }
 
     AnalizadorTokens() {
-        //entrada=this.areaEntrada;
-        Scanner teclado = new Scanner(System.in);
-        iniciarVariables();
-        
-            
-            System.out.println("Ingrese la palabra: ");
-            palabra = teclado.nextLine();
-            while (posicion < palabra.length()) {
-                getToken();
-            }
+    //entrada=this.areaEntrada;
+    /*  Scanner teclado = new Scanner(System.in);
+    iniciarVariables();
+    
+    
+    System.out.println("Ingrese la palabra: ");
+    palabra = teclado.nextLine();
+    while (posicion < palabra.length()) {
+    getToken();
+    }*/
     }
     //moverme en los estados.
 
@@ -263,9 +261,13 @@ public final class AnalizadorTokens {
                 if(resultado<0){
                     errores[0]=posicion;
                 }
+                
+                
             } catch (ArrayIndexOutOfBoundsException e) {
                 resultado = -1;
             }
+        }else if(estadoActual<-1){
+            resultado=estadoActual;
         }
         return resultado;
     }
@@ -320,25 +322,27 @@ public final class AnalizadorTokens {
             } 
             else {
                 int estadoTemporal = getSiguienteEstado(estadoActual, getIntCaracter(tmp));
-                String movimiento = ("Estado actual: " + estadoActual + " caracter: " + tmp + " transición a: " + estadoTemporal);
+                movimiento = ("Estado actual: " + estadoActual + " caracter: " + tmp + " transición a: " + estadoTemporal);
                 System.out.println(movimiento);
                 setResultadoObtenido(getResultadoObtenido() + "\n" + movimiento);
                 token += tmp;
                 estadoActual = estadoTemporal;
                 System.out.println(tmp);
+                
             }
            
             posicion++;
         }
         
-        String mensaje = ("------[ Terminó en el estado: " + getEstadoAceptacion(estadoActual) + " token actual: " + token +" ]------");
+         mensaje = ("------[ Terminó en el estado: " + getEstadoAceptacion(estadoActual) + " token actual: " + token +" ]------");
         String parte[]=getEstadoAceptacion(estadoActual).split(",");
         if(parte[0].equals("Error")){
-            mensaje=mensaje +"en la linea: " + numeroLiena  + "; +Colomna: " + errores[0];
+            mensaje=mensaje +"en la linea: " + numeroLiena  + "; Columna: " + errores[0];
         }
         setResultadoObtenido(getResultadoObtenido() + "\n"+lineas(mensaje)+"\n|" + mensaje+
                                                             "|\n"+lineas(mensaje)+"\n" );
         System.out.println(mensaje + "\n");
+       
     }
     public String lineas(String mensaje){
         String lineas="+";
