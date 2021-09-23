@@ -61,6 +61,7 @@ public class VistaGráfica extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         limpiarConsola = new javax.swing.JButton();
         botonGuardarArchivo = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Analizador léxico");
@@ -193,10 +194,11 @@ public class VistaGráfica extends javax.swing.JFrame {
                     .addComponent(limpiarConsola))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addContainerGap(278, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Funcionalidad", panelPrincipal);
+        jTabbedPane2.addTab("Reportes", jTabbedPane1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -299,6 +301,7 @@ public class VistaGráfica extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel labelEntradaTexto;
     private javax.swing.JButton limpiarConsola;
