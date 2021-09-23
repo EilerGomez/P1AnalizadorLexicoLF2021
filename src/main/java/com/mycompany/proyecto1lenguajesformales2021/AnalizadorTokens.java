@@ -18,7 +18,8 @@ public final class AnalizadorTokens {
     String descripcionFinalizacion[] = new String[36];
     //int estadoActual = 0;
     boolean seguirLeyendo = true;
-
+    String Contadorerrores[];
+    
     String resultadoObtenido = "";
 
     public void iniciarAnalizador(String entrada, int numLine) {
@@ -338,6 +339,8 @@ public final class AnalizadorTokens {
         String parte[]=getEstadoAceptacion(estadoActual).split(",");
         if(parte[0].equals("Error")){
             mensaje=mensaje +"en la linea: " + numeroLiena  + "; Columna: " + errores[0];
+            Contadorerrores[numeroDeErrores]=token;
+            numeroDeErrores++;
         }
         setResultadoObtenido(getResultadoObtenido() + "\n"+lineas(mensaje)+"\n|" + mensaje+
                                                             "|\n"+lineas(mensaje)+"\n" );

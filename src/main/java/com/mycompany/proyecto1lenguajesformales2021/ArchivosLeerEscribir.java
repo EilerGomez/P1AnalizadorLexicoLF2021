@@ -70,7 +70,7 @@ public class ArchivosLeerEscribir {
     }
     public void guardarArchivo(String texto, String lugar){
         try {
-            BufferedWriter escribir = new BufferedWriter(new FileWriter(new File(lugar + ".txt")));
+            BufferedWriter escribir = new BufferedWriter(new FileWriter(new File(lugar)));
             escribir.write(texto);
             escribir.close();
         } catch (IOException ex) {
