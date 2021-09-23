@@ -25,6 +25,7 @@ public class VistaGráfica extends javax.swing.JFrame {
      */
     AnalizadorTokens analizador;
     ArchivosLeerEscribir arch;
+    ReporteErrores reportError;
     java.awt.event.WindowEvent eventoInicioVentana;
     public VistaGráfica() {
         initComponents();
@@ -36,6 +37,7 @@ public class VistaGráfica extends javax.swing.JFrame {
     public void inicializarVariables(){
         analizador=new AnalizadorTokens();
         arch= new ArchivosLeerEscribir();
+        reportError=new ReporteErrores();
     }
 
     /**
@@ -61,7 +63,10 @@ public class VistaGráfica extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         limpiarConsola = new javax.swing.JButton();
         botonGuardarArchivo = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaErroresReportes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Analizador léxico");
@@ -194,11 +199,57 @@ public class VistaGráfica extends javax.swing.JFrame {
                     .addComponent(limpiarConsola))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(278, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Funcionalidad", panelPrincipal);
-        jTabbedPane2.addTab("Reportes", jTabbedPane1);
+
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Reportes de Errores"));
+
+        tablaErroresReportes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane3.setViewportView(tablaErroresReportes);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 721, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(470, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("REPORTES", jPanel2);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -242,23 +293,35 @@ public class VistaGráfica extends javax.swing.JFrame {
     }//GEN-LAST:event_limpiarConsolaActionPerformed
 
     private void botonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnalizarActionPerformed
+        limpiarTablaErrores();
         //textAreaEntradaTexto.setText(textAreaEntradaTexto.getText());
         //se debe analizar linea por linea
         //analizador.iniciarAnalizador(textAreaEntradaTexto.getText(),2);
         //salidaResultadoArea.setText(analizador.getResultadoObtenido() +"\n");
         arch.leerArchivoAnalizando(textAreaEntradaTexto.getText(), salidaResultadoArea);
         System.out.println(textAreaEntradaTexto.getText());
+        
 
     }//GEN-LAST:event_botonAnalizarActionPerformed
 
     private void botonLimpiarEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLimpiarEntradaActionPerformed
         textAreaEntradaTexto.setText("");
     }//GEN-LAST:event_botonLimpiarEntradaActionPerformed
-
+    public void limpiarTablaErrores(){
+        DefaultTableModel modelo = (DefaultTableModel)tablaErroresReportes.getModel();
+        for(int i=0; i<tablaErroresReportes.getRowCount();i++){
+            modelo.removeRow(i);
+            i-=1;
+        }
+    }
+    
     private void cargarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarDatosActionPerformed
         abrirFileChooser();
     }//GEN-LAST:event_cargarDatosActionPerformed
-
+    public static void agregarReporte(Object row[]){
+       ((DefaultTableModel) tablaErroresReportes.getModel()).addRow(row);
+    }
+    
    
     /**
      * @param args the command line arguments
@@ -280,16 +343,16 @@ public class VistaGráfica extends javax.swing.JFrame {
         arch.guardarArchivo(textAreaEntradaTexto.getText(),guardar.getSelectedFile().toString());
     }
     private void formWindowOpeneded(java.awt.event.WindowEvent event){
-        DefaultTableModel modelo = (DefaultTableModel)tablaReportesErrores.getModel();
+        DefaultTableModel modelo = (DefaultTableModel)tablaErroresReportes.getModel();
         modelo.addColumn("Token");
         modelo.addColumn("Fila");
         modelo.addColumn("Columna");
     }
      private void formWindowTablaTokens(java.awt.event.WindowEvent event){
-        DefaultTableModel modelo = (DefaultTableModel)TablaReportesTokens.getModel();
-        modelo.addColumn("Token");
-        modelo.addColumn("Fila");
-        modelo.addColumn("Columna");
+         /*DefaultTableModel modelo = (DefaultTableModel)tablaErroresReportes.getModel();
+         modelo.addColumn("Token");
+         modelo.addColumn("Fila");
+         modelo.addColumn("Columna");*/
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -299,14 +362,17 @@ public class VistaGráfica extends javax.swing.JFrame {
     private javax.swing.JButton cargarDatos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JLabel labelEntradaTexto;
     private javax.swing.JButton limpiarConsola;
     private javax.swing.JPanel panelPrincipal;
     private javax.swing.JTextArea salidaResultadoArea;
+    public static javax.swing.JTable tablaErroresReportes;
     private javax.swing.JTextArea textAreaEntradaTexto;
     // End of variables declaration//GEN-END:variables
 

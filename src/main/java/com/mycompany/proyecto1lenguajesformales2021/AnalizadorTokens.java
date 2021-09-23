@@ -14,11 +14,15 @@ public final class AnalizadorTokens {
     int numeroDeErrores;
     int numeroLiena;
     int matrizTransiciones[][] = new int[8][6];
-    int estadosFinalizacion[] = new int[36];
-    String descripcionFinalizacion[] = new String[36];
+    int estadosFinalizacion[] = new int[37];
+    String descripcionFinalizacion[] = new String[37];
     //int estadoActual = 0;
     boolean seguirLeyendo = true;
-    String Contadorerrores[];
+    //variables de reportes
+    String Contadorerrores[]=new String[10000];
+    String contadorFila[]=new String[10000];
+    String contadorColumna[]=new String[1000];
+    
     
     String resultadoObtenido = "";
 
@@ -70,6 +74,7 @@ public final class AnalizadorTokens {
         palabra ="";
         mensaje="";
         movimiento="";
+       
         matrizTransiciones[0][0] = 1;
         matrizTransiciones[1][0] = 1;
         matrizTransiciones[1][1] = 1;
@@ -238,6 +243,9 @@ public final class AnalizadorTokens {
         
         estadosFinalizacion[35]=-31;
         descripcionFinalizacion[35]="Error, letra después del signo de agrupación";
+        
+        estadosFinalizacion[36]=-32;
+        descripcionFinalizacion[36]="Error, el caracter es inválido";
     }
 
     AnalizadorTokens() {
@@ -260,12 +268,13 @@ public final class AnalizadorTokens {
             try {
                 resultado = matrizTransiciones[estadoActual][caracter];
                 if(resultado<0){
-                    errores[0]=posicion;
+                    errores[0]=posicion+1;
                 }
                 
                 
             } catch (ArrayIndexOutOfBoundsException e) {
-                resultado = -1;
+                resultado = -32;
+                 errores[0]=posicion+1;
             }
         }else if(estadoActual<-1){
             resultado=estadoActual;
@@ -293,7 +302,7 @@ public final class AnalizadorTokens {
     }
 
     public String getEstadoAceptacion(int i) {
-        String res = "Error Character not exist";
+        String res = "S";
         int indice = 0;
         for (int estadoAceptacion : estadosFinalizacion) {
             if (estadoAceptacion == i) {
@@ -324,11 +333,11 @@ public final class AnalizadorTokens {
             else {
                 int estadoTemporal = getSiguienteEstado(estadoActual, getIntCaracter(tmp));
                 movimiento = ("Estado actual: " + estadoActual + " caracter: " + tmp + " transición a: " + estadoTemporal);
-                System.out.println(movimiento);
+                //System.out.println(movimiento);
                 setResultadoObtenido(getResultadoObtenido() + "\n" + movimiento);
                 token += tmp;
                 estadoActual = estadoTemporal;
-                System.out.println(tmp);
+                //System.out.println(tmp);
                 
             }
            
@@ -338,12 +347,16 @@ public final class AnalizadorTokens {
          mensaje = ("------[ Terminó en el estado: " + getEstadoAceptacion(estadoActual) + " token actual: " + token +" ]------");
         String parte[]=getEstadoAceptacion(estadoActual).split(",");
         if(parte[0].equals("Error")){
-            mensaje=mensaje +"en la linea: " + numeroLiena  + "; Columna: " + errores[0];
-            Contadorerrores[numeroDeErrores]=token;
             numeroDeErrores++;
+            mensaje=mensaje +"en la linea: " + numeroLiena  + "; Columna: " + errores[0];
+            Object row[]={token,numeroLiena,errores[0]};
+            VistaGráfica.agregarReporte(row);
         }
-        setResultadoObtenido(getResultadoObtenido() + "\n"+lineas(mensaje)+"\n|" + mensaje+
+        if(!getEstadoAceptacion(estadoActual).equals("S")){
+                setResultadoObtenido(getResultadoObtenido() + "\n"+lineas(mensaje)+"\n|" + mensaje+
                                                             "|\n"+lineas(mensaje)+"\n" );
+        }
+    
         System.out.println(mensaje + "\n");
        
     }
