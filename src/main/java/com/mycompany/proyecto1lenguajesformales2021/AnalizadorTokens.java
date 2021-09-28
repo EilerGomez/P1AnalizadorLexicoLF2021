@@ -2,6 +2,7 @@ package com.mycompany.proyecto1lenguajesformales2021;
 
 import java.util.Scanner;
 import javax.swing.JTextArea;
+import javax.swing.table.DefaultTableModel;
 
 public final class AnalizadorTokens {
 
@@ -22,7 +23,7 @@ public final class AnalizadorTokens {
     String Contadorerrores[]=new String[10000];
     String contadorFila[]=new String[10000];
     String contadorColumna[]=new String[1000];
-    
+    public static boolean hayErrores=false;
     
     String resultadoObtenido = "";
 
@@ -54,6 +55,13 @@ public final class AnalizadorTokens {
     public void setResultadoObtenido(String resultadoObtenido) {
         this.resultadoObtenido = resultadoObtenido;
     }
+    public boolean isHayErrores() {
+        return hayErrores;
+    }
+
+    public void setHayErrores(boolean hayErrores) {
+        this.hayErrores = hayErrores;
+    }
 
     /* public static void main(String args[]) {
     AnalizadorTokens analizadorTokens = new AnalizadorTokens();
@@ -74,6 +82,7 @@ public final class AnalizadorTokens {
         palabra ="";
         mensaje="";
         movimiento="";
+        //hayErrores=false;
        
         matrizTransiciones[0][0] = 1;
         matrizTransiciones[1][0] = 1;
@@ -350,16 +359,38 @@ public final class AnalizadorTokens {
             numeroDeErrores++;
             mensaje=mensaje +"en la linea: " + numeroLiena  + "; Columna: " + errores[0];
             Object row[]={token,numeroLiena,errores[0]};
-            VistaGráfica.agregarReporte(row);
+            VistaGráfica.agregarReporteError(row);
+            hayErrores=true;
+            limpiarTablaTokens();
+        }else if(!parte[0].equals("Error")&& isHayErrores()==false){
+            int position;
+            if(estadoActual>0){
+                if(posicion==0){
+                    position=1;
+                }else{
+                    position=posicion-1;
+                }
+                Object ror[]={token,verificarTokenTerminado(estadoActual),numeroLiena,position};
+                VistaGráfica.agregarReporteToken(ror);
+            }
         }
         if(!getEstadoAceptacion(estadoActual).equals("S")){
                 setResultadoObtenido(getResultadoObtenido() + "\n"+lineas(mensaje)+"\n|" + mensaje+
                                                             "|\n"+lineas(mensaje)+"\n" );
         }
+        
     
         System.out.println(mensaje + "\n");
        
     }
+    public void limpiarTablaTokens(){
+        DefaultTableModel modelo = (DefaultTableModel)VistaGráfica.tablaReportesTokens.getModel();
+            for(int i=0; i<VistaGráfica.tablaReportesTokens.getRowCount();i++){
+                modelo.removeRow(i);
+                i-=1;
+            }
+    }
+   
     public String lineas(String mensaje){
         String lineas="+";
         for(int i=1; i<=mensaje.length();i++){
@@ -370,7 +401,30 @@ public final class AnalizadorTokens {
         }
         return lineas;
     }
-    
-    
-
+    public String verificarTokenTerminado(int estado){
+        String resultado="";
+        switch(estado){
+            case 1: 
+                resultado="Identificador";
+                break;
+            case 3: 
+                resultado="Número entero";
+                break;
+            case 5:
+                resultado="Número decimal";
+                break;
+            case 2: 
+                resultado="Signo de Operación";
+                break;
+            case 6:
+                resultado="Signo de puntuación";
+                break;
+            case 7: 
+                resultado="Signo de agrupación";
+                break;
+            default: 
+                resultado="";
+        }
+        return resultado;
+    } 
 }
