@@ -117,7 +117,7 @@ public class VistaGráfica extends javax.swing.JFrame {
             }
         });
 
-        botonAnalizar.setBackground(java.awt.SystemColor.desktop);
+        botonAnalizar.setBackground(new java.awt.Color(255, 255, 51));
         botonAnalizar.setText("Analizar");
         botonAnalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
