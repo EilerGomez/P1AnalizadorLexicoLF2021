@@ -429,44 +429,8 @@ public final class AnalizadorTokens {
         }
         return resultado;
     } 
-    public void analizarLexemas(String jtextarea){
-        StringTokenizer contadorPalabras = new StringTokenizer(jtextarea);
-        System.out.println("El numero de palabras que contiene el jtext de entrada es: " + contadorPalabras.countTokens());
-        String lexemas[] = new String[contadorPalabras.countTokens()];
-    }
-    public void analizardorLexemas(String texto){
-        int estadoActual = 0; 
-        int contadorLexemas=0;
-        boolean leerAun = true;
-        char caracter;
-        int position=0;
-        String palabra = ""; 
-        StringTokenizer contadorPalabras = new StringTokenizer(texto);
-        String lexemas[] = new String[contadorPalabras.countTokens()];
-        while(position<texto.length()){
-            while((leerAun == true) && (position < texto.length())){
-                if (Character.isSpaceChar(caracter = texto.charAt(position))||Character.isWhitespace (caracter=texto.charAt(position))) {
-                    //setNumeroLiena(getNumeroLiena()+1);
-                    leerAun = false;
-
-                }else{
-                    int estadoTemporal = getSiguienteEstado(estadoActual, getIntCaracter(caracter));
-                    palabra+=caracter;
-                    estadoActual=estadoTemporal;
-                }
-                position++;
-            }
-                    lexemas[contadorLexemas]=palabra;
-                    //System.out.println(palabra);
-                    contadorLexemas++;
-               
-            leerAun=true;
-        }
-        for(String tokens: lexemas){
-            System.out.println(tokens);
-        }
-       
-    }
+   
+    
     
     public void analizarLexemas(JTable tablaTokens, JTable tablaRecuento, String texto){
         int contador=0;
