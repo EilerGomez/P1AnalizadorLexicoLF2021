@@ -1,6 +1,8 @@
 package com.mycompany.proyecto1lenguajesformales2021;
 
 import java.util.Scanner;
+import java.util.StringTokenizer;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 
@@ -330,9 +332,9 @@ public final class AnalizadorTokens {
        
         while ((seguirLeyendo == true) && (posicion < palabra.length())) {
             if (Character.isSpaceChar(tmp = palabra.charAt(posicion))||Character.isWhitespace (tmp=palabra.charAt(posicion))) {
+                //setNumeroLiena(getNumeroLiena()+1);
                 seguirLeyendo = false;
                 
-                //setNumeroLiena(getNumeroLiena()+1);
             }else if("\n".equals(Character.toString(palabra.charAt(posicion)))){
                 seguirLeyendo=false;
                 //setNumeroLiena(getNumeroLiena()+1);
@@ -427,4 +429,74 @@ public final class AnalizadorTokens {
         }
         return resultado;
     } 
+    public void analizarLexemas(String jtextarea){
+        StringTokenizer contadorPalabras = new StringTokenizer(jtextarea);
+        System.out.println("El numero de palabras que contiene el jtext de entrada es: " + contadorPalabras.countTokens());
+        String lexemas[] = new String[contadorPalabras.countTokens()];
+    }
+    public void analizardorLexemas(String texto){
+        int estadoActual = 0; 
+        int contadorLexemas=0;
+        boolean leerAun = true;
+        char caracter;
+        int position=0;
+        String palabra = ""; 
+        StringTokenizer contadorPalabras = new StringTokenizer(texto);
+        String lexemas[] = new String[contadorPalabras.countTokens()];
+        while(position<texto.length()){
+            while((leerAun == true) && (position < texto.length())){
+                if (Character.isSpaceChar(caracter = texto.charAt(position))||Character.isWhitespace (caracter=texto.charAt(position))) {
+                    //setNumeroLiena(getNumeroLiena()+1);
+                    leerAun = false;
+
+                }else{
+                    int estadoTemporal = getSiguienteEstado(estadoActual, getIntCaracter(caracter));
+                    palabra+=caracter;
+                    estadoActual=estadoTemporal;
+                }
+                position++;
+            }
+                    lexemas[contadorLexemas]=palabra;
+                    //System.out.println(palabra);
+                    contadorLexemas++;
+               
+            leerAun=true;
+        }
+        for(String tokens: lexemas){
+            System.out.println(tokens);
+        }
+       
+    }
+    
+    public void analizarLexemas(JTable tablaTokens, JTable tablaRecuento, String texto){
+        int contador=0;
+        String palabra="";
+        boolean existente=false;
+        for(int i=0; i<tablaTokens.getRowCount(); i++){
+            for(int j =0; j<tablaTokens.getRowCount(); j++){
+                if(tablaTokens.getValueAt(j, 0).toString().equals(tablaTokens.getValueAt(i, 0).toString())){
+                    contador++;
+                    palabra=tablaTokens.getValueAt(i, 0).toString();
+                }
+            }
+            if(contador>0){
+                for(int k=0; k<tablaRecuento.getRowCount(); k++){                    
+                    if(tablaTokens.getValueAt(i, 0).toString().equals(tablaRecuento.getValueAt(k, 0).toString())){
+                        existente=true;
+                        k=tablaRecuento.getRowCount()+1;
+                    }else{
+                        existente=false;
+                    }
+                    
+                }
+                if(existente==false){
+                    Object row[] = {tablaTokens.getValueAt(i, 0).toString(),tablaTokens.getValueAt(i, 1),contador};
+                    ((DefaultTableModel) tablaRecuento.getModel()).addRow(row);
+                }
+            }
+            contador=0;
+            existente=false;
+        }
+    }
+    
 }

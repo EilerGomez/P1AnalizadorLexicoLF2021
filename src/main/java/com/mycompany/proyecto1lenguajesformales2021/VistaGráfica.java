@@ -110,7 +110,7 @@ public class VistaGráfica extends javax.swing.JFrame {
 
         botonLimpiarEntrada.setBackground(new java.awt.Color(112, 24, 29));
         botonLimpiarEntrada.setForeground(java.awt.Color.white);
-        botonLimpiarEntrada.setText("Limpiar");
+        botonLimpiarEntrada.setText("Limpiar Entrada");
         botonLimpiarEntrada.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonLimpiarEntradaActionPerformed(evt);
@@ -362,6 +362,7 @@ public class VistaGráfica extends javax.swing.JFrame {
     private void botonAnalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAnalizarActionPerformed
         limpiarTablaErrores();
         limpiarTablaTokens();
+        limpiarTablaRecuentoTokens();
         AnalizadorTokens.hayErrores=false;
         //textAreaEntradaTexto.setText(textAreaEntradaTexto.getText());
         //se debe analizar linea por linea
@@ -369,7 +370,8 @@ public class VistaGráfica extends javax.swing.JFrame {
         //salidaResultadoArea.setText(analizador.getResultadoObtenido() +"\n");
         arch.leerArchivoAnalizando(textAreaEntradaTexto.getText(), salidaResultadoArea);
         System.out.println(textAreaEntradaTexto.getText());
-        
+        //nalizador.analizarLexemas(textAreaEntradaTexto.getText());
+        analizador.analizarLexemas(tablaReportesTokens,tablaRecuentoLexemas,textAreaEntradaTexto.getText());
 
     }//GEN-LAST:event_botonAnalizarActionPerformed
 
@@ -387,6 +389,14 @@ public class VistaGráfica extends javax.swing.JFrame {
          DefaultTableModel modelo = (DefaultTableModel)tablaReportesTokens.getModel();
         for(int i=0; i<tablaReportesTokens.getRowCount();i++){
             modelo.removeRow(i);
+            
+            i-=1;
+        }
+    }
+    public void limpiarTablaRecuentoTokens(){
+        DefaultTableModel modelo=(DefaultTableModel)tablaRecuentoLexemas.getModel();
+        for(int i=0; i<tablaRecuentoLexemas.getRowCount(); i++){
+            modelo.removeRow(i);
             i-=1;
         }
     }
@@ -394,6 +404,7 @@ public class VistaGráfica extends javax.swing.JFrame {
     private void cargarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cargarDatosActionPerformed
         AnalizadorTokens.hayErrores=false;
         abrirFileChooser();
+         analizador.analizarLexemas(tablaReportesTokens,tablaRecuentoLexemas,textAreaEntradaTexto.getText());
     }//GEN-LAST:event_cargarDatosActionPerformed
     public static void agregarReporteError(Object row[]){
        ((DefaultTableModel) tablaErroresReportes.getModel()).addRow(row);
@@ -414,10 +425,12 @@ public class VistaGráfica extends javax.swing.JFrame {
         textAreaEntradaTexto.setText("");
         limpiarTablaTokens();
         limpiarTablaErrores();
+        limpiarTablaRecuentoTokens();
         if(archivo !=null || !archivo.getName().equals("")){           
             salidaResultadoArea.setText(archivo.getAbsolutePath());
             arch.leerArchivoDeEntrada(archivo.getAbsolutePath(),textAreaEntradaTexto,salidaResultadoArea);               
         }
+        
     }
     public void guardarArchivo(){
         JFileChooser guardar = new JFileChooser();
