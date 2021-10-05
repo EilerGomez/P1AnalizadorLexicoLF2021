@@ -111,6 +111,8 @@
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                   <Component id="botonGuardarArchivo" min="-2" pref="174" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="369" max="-2" attributes="0"/>
+                                  <Component id="botonCopiarTexto" min="-2" pref="234" max="-2" attributes="0"/>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane2" alignment="0" max="32767" attributes="0"/>
@@ -120,26 +122,28 @@
                                           <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                                           <Component id="labelEntradaTexto" min="-2" max="-2" attributes="0"/>
                                       </Group>
-                                      <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                                          <Component id="cargarDatos" alignment="1" min="-2" pref="416" max="-2" attributes="0"/>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" attributes="0">
-                                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="limpiarConsola" min="-2" pref="187" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Component id="jScrollPane1" alignment="0" min="-2" pref="658" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="limpiarConsola" min="-2" pref="187" max="-2" attributes="0"/>
+                                          <EmptySpace pref="137" max="32767" attributes="0"/>
+                                          <Component id="botonLimpiarEntrada" min="-2" pref="279" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="jScrollPane1" max="32767" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="-2" pref="242" max="-2" attributes="0"/>
+                                              <Component id="cargarDatos" min="-2" pref="416" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="botonLimpiarEntrada" alignment="1" min="-2" pref="279" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" attributes="0">
                                           <Component id="fieldBuscador" min="-2" pref="451" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="botonBuscar" min="-2" pref="114" max="-2" attributes="0"/>
-                                          <EmptySpace min="0" pref="15" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
                                       <Component id="jScrollPane6" max="32767" attributes="0"/>
                                       <Group type="102" alignment="1" attributes="0">
@@ -168,19 +172,20 @@
                               <Component id="jScrollPane1" min="-2" pref="291" max="-2" attributes="0"/>
                               <Component id="jScrollPane6" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="botonLimpiarEntrada" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="botonGuardarArchivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="botonGuardarArchivo" min="-2" max="-2" attributes="0"/>
+                              <Component id="botonCopiarTexto" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="limpiarConsola" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="botonAnalizar" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="botonLimpiarEntrada" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" pref="410" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="414" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -344,12 +349,21 @@
                   <SubComponents>
                     <Component class="javax.swing.JTextArea" name="areaBuscador">
                       <Properties>
+                        <Property name="editable" type="boolean" value="false"/>
                         <Property name="columns" type="int" value="20"/>
                         <Property name="rows" type="int" value="5"/>
                       </Properties>
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JButton" name="botonCopiarTexto">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="----Copiar Texto---&gt;"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCopiarTextoActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="jPanel2">

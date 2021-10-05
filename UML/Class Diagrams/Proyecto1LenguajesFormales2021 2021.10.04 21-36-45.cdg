@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="Proyecto1LenguajesFormales2021">
+  <ClassDiagramComponents>
+    <Class name="Main" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="20.0" yPosition="20.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="AnalizadorTokens" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" isFinal="true" xPosition="320.0" yPosition="20.0">
+      <Fields>
+        <Field name="palabra" type="String" visibility="package"/>
+        <Field name="mensaje" type="String" visibility="package"/>
+        <Field name="movimiento" type="String" visibility="package"/>
+        <Field name="posicion" type="int" visibility="package"/>
+        <Field name="errores" type="int" visibility="package"/>
+        <Field name="numeroDeErrores" type="int" visibility="package"/>
+        <Field name="numeroLiena" type="int" visibility="package"/>
+        <Field name="matrizTransiciones" type="int" visibility="package"/>
+        <Field name="estadosFinalizacion" type="int" visibility="package"/>
+        <Field name="descripcionFinalizacion" type="String" visibility="package"/>
+        <Field name="seguirLeyendo" type="boolean" visibility="package"/>
+        <Field name="Contadorerrores" type="String" visibility="package"/>
+        <Field name="contadorFila" type="String" visibility="package"/>
+        <Field name="contadorColumna" type="String" visibility="package"/>
+        <Field name="hayErrores" type="boolean" visibility="public" isStatic="true"/>
+        <Field name="resultadoObtenido" type="String" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="package"/>
+      </Constructors>
+      <Methods>
+        <Method name="iniciarAnalizador" returnType="void" visibility="public">
+          <Argument type="String" name="entrada"/>
+          <Argument type="int" name="numLine"/>
+        </Method>
+        <Method name="getResultadoObtenido" returnType="String" visibility="public"/>
+        <Method name="getNumeroLiena" returnType="int" visibility="public"/>
+        <Method name="setNumeroLiena" returnType="void" visibility="public">
+          <Argument type="int" name="numeroLiena"/>
+        </Method>
+        <Method name="setResultadoObtenido" returnType="void" visibility="public">
+          <Argument type="String" name="resultadoObtenido"/>
+        </Method>
+        <Method name="isHayErrores" returnType="boolean" visibility="public"/>
+        <Method name="setHayErrores" returnType="void" visibility="public">
+          <Argument type="boolean" name="hayErrores"/>
+        </Method>
+        <Method name="iniciarVariables" returnType="void" visibility="public"/>
+        <Method name="getSiguienteEstado" returnType="int" visibility="public">
+          <Argument type="int" name="estadoActual"/>
+          <Argument type="int" name="caracter"/>
+        </Method>
+        <Method name="getIntCaracter" returnType="int" visibility="public">
+          <Argument type="char" name="caracter"/>
+        </Method>
+        <Method name="getEstadoAceptacion" returnType="String" visibility="public">
+          <Argument type="int" name="i"/>
+        </Method>
+        <Method name="getToken" returnType="void" visibility="public"/>
+        <Method name="limpiarTablaTokens" returnType="void" visibility="public"/>
+        <Method name="lineas" returnType="String" visibility="public">
+          <Argument type="String" name="mensaje"/>
+        </Method>
+        <Method name="verificarTokenTerminado" returnType="String" visibility="public">
+          <Argument type="int" name="estado"/>
+        </Method>
+        <Method name="analizarLexemas" returnType="void" visibility="public">
+          <Argument type="JTable" name="tablaTokens"/>
+          <Argument type="JTable" name="tablaRecuento"/>
+          <Argument type="String" name="texto"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ReporteErrores" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="620.0" yPosition="20.0">
+      <Fields>
+        <Field name="analizador" type="AnalizadorTokens" visibility="package"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="insertarReportesErrores" returnType="void" visibility="public">
+          <Argument type="JTable" name="tablaReportesErrores"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="ArchivosLeerEscribir" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="920.0" yPosition="20.0">
+      <Fields>
+        <Field name="bufer" type="BufferedReader" visibility="package"/>
+        <Field name="linea" type="String" visibility="package"/>
+        <Field name="analizador" type="AnalizadorTokens" visibility="package"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="getLinea" returnType="String" visibility="public"/>
+        <Method name="setLinea" returnType="void" visibility="public">
+          <Argument type="String" name="linea"/>
+        </Method>
+        <Method name="leerArchivoDeEntrada" returnType="void" visibility="public">
+          <Argument type="String" name="nombre"/>
+          <Argument type="JTextArea" name="areaEntrada"/>
+          <Argument type="JTextArea" name="salidaResult"/>
+        </Method>
+        <Method name="leerArchivoAnalizando" returnType="void" visibility="public">
+          <Argument type="String" name="texto"/>
+          <Argument type="JTextArea" name="salidaResultado"/>
+        </Method>
+        <Method name="guardarArchivo" returnType="void" visibility="public">
+          <Argument type="String" name="texto"/>
+          <Argument type="String" name="lugar"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="VistaGráfica" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="1220.0" yPosition="20.0">
+      <Fields>
+        <Field name="analizador" type="AnalizadorTokens" visibility="package"/>
+        <Field name="arch" type="ArchivosLeerEscribir" visibility="package"/>
+        <Field name="reportError" type="ReporteErrores" visibility="package"/>
+        <Field name="eventoInicioVentana" type="java.awt.event.WindowEvent" visibility="package"/>
+        <Field name="areaBuscador" type="javax.swing.JTextArea" visibility="private"/>
+        <Field name="botonAnalizar" type="javax.swing.JButton" visibility="private"/>
+        <Field name="botonBuscar" type="javax.swing.JButton" visibility="private"/>
+        <Field name="botonCopiarTexto" type="javax.swing.JButton" visibility="private"/>
+        <Field name="botonGuardarArchivo" type="javax.swing.JButton" visibility="private"/>
+        <Field name="botonLimpiarEntrada" type="javax.swing.JButton" visibility="private"/>
+        <Field name="cargarDatos" type="javax.swing.JButton" visibility="private"/>
+        <Field name="fieldBuscador" type="javax.swing.JTextField" visibility="private"/>
+        <Field name="jLabel1" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="jPanel1" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="jPanel2" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="jPanel3" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="jPanel5" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="jScrollPane1" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jScrollPane2" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jScrollPane3" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jScrollPane4" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jScrollPane5" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jScrollPane6" type="javax.swing.JScrollPane" visibility="private"/>
+        <Field name="jTabbedPane2" type="javax.swing.JTabbedPane" visibility="private"/>
+        <Field name="labelEntradaTexto" type="javax.swing.JLabel" visibility="private"/>
+        <Field name="limpiarConsola" type="javax.swing.JButton" visibility="private"/>
+        <Field name="panelPrincipal" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="panelReporteTokens" type="javax.swing.JPanel" visibility="private"/>
+        <Field name="salidaResultadoArea" type="javax.swing.JTextArea" visibility="private"/>
+        <Field name="tablaErroresReportes" type="javax.swing.JTable" visibility="public" isStatic="true"/>
+        <Field name="tablaRecuentoLexemas" type="javax.swing.JTable" visibility="private"/>
+        <Field name="tablaReportesTokens" type="javax.swing.JTable" visibility="public" isStatic="true"/>
+        <Field name="textAreaEntradaTexto" type="javax.swing.JTextArea" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="inicializarVariables" returnType="void" visibility="public"/>
+        <Method name="initComponents" returnType="// &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
+void" visibility="private"/>
+        <Method name="botonGuardarArchivoActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="limpiarConsolaActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="botonAnalizarActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="botonLimpiarEntradaActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="limpiarTablaErrores" returnType="void" visibility="public"/>
+        <Method name="limpiarTablaTokens" returnType="void" visibility="public"/>
+        <Method name="limpiarTablaRecuentoTokens" returnType="void" visibility="public"/>
+        <Method name="cargarDatosActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="botonBuscarActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="botonCopiarTextoActionPerformed" returnType="void" visibility="private">
+          <Argument type="java.awt.event.ActionEvent" name="evt"/>
+        </Method>
+        <Method name="agregarReporteError" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Object" name="row"/>
+        </Method>
+        <Method name="agregarReporteToken" returnType="void" visibility="public" isStatic="true">
+          <Argument type="Object" name="ror"/>
+        </Method>
+        <Method name="buscarpalabra" returnType="void" visibility="public">
+          <Argument type="JTextArea" name="area1"/>
+          <Argument type="String" name="texto"/>
+        </Method>
+        <Method name="abrirFileChooser" returnType="void" visibility="public"/>
+        <Method name="guardarArchivo" returnType="void" visibility="public"/>
+        <Method name="formWindowOpeneded" returnType="void" visibility="private">
+          <Argument type="java.awt.event.WindowEvent" name="event"/>
+        </Method>
+        <Method name="formWindowOpenededTokens" returnType="void" visibility="private">
+          <Argument type="java.awt.event.WindowEvent" name="event"/>
+        </Method>
+        <Method name="formWindowOpenededrecuentoLexemas" returnType="void" visibility="private">
+          <Argument type="java.awt.event.WindowEvent" name="event"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="arch" source="com.mycompany.proyecto1lenguajesformales2021.VistaGráfica" target="com.mycompany.proyecto1lenguajesformales2021.ArchivosLeerEscribir" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="analizador" source="com.mycompany.proyecto1lenguajesformales2021.ReporteErrores" target="com.mycompany.proyecto1lenguajesformales2021.AnalizadorTokens" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="reportError" source="com.mycompany.proyecto1lenguajesformales2021.VistaGráfica" target="com.mycompany.proyecto1lenguajesformales2021.ReporteErrores" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="analizador" source="com.mycompany.proyecto1lenguajesformales2021.VistaGráfica" target="com.mycompany.proyecto1lenguajesformales2021.AnalizadorTokens" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="analizador" source="com.mycompany.proyecto1lenguajesformales2021.ArchivosLeerEscribir" target="com.mycompany.proyecto1lenguajesformales2021.AnalizadorTokens" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

@@ -5,14 +5,21 @@
  */
 package com.mycompany.proyecto1lenguajesformales2021;
 
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultHighlighter;
+import javax.swing.text.Highlighter;
 
 /**
  *
@@ -68,6 +75,7 @@ public class VistaGráfica extends javax.swing.JFrame {
         botonBuscar = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         areaBuscador = new javax.swing.JTextArea();
+        botonCopiarTexto = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -166,9 +174,17 @@ public class VistaGráfica extends javax.swing.JFrame {
             }
         });
 
+        areaBuscador.setEditable(false);
         areaBuscador.setColumns(20);
         areaBuscador.setRows(5);
         jScrollPane6.setViewportView(areaBuscador);
+
+        botonCopiarTexto.setText("----Copiar Texto--->");
+        botonCopiarTexto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCopiarTextoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelPrincipalLayout = new javax.swing.GroupLayout(panelPrincipal);
         panelPrincipal.setLayout(panelPrincipalLayout);
@@ -180,6 +196,8 @@ public class VistaGráfica extends javax.swing.JFrame {
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(botonGuardarArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(369, 369, 369)
+                        .addComponent(botonCopiarTexto, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPrincipalLayout.createSequentialGroup()
@@ -187,22 +205,24 @@ public class VistaGráfica extends javax.swing.JFrame {
                             .addGroup(panelPrincipalLayout.createSequentialGroup()
                                 .addGap(25, 25, 25)
                                 .addComponent(labelEntradaTexto))
-                            .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(cargarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelPrincipalLayout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(limpiarConsola, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 658, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(botonLimpiarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
+                            .addGroup(panelPrincipalLayout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(limpiarConsola, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
+                                .addComponent(botonLimpiarEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jScrollPane1)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelPrincipalLayout.createSequentialGroup()
+                                    .addGap(242, 242, 242)
+                                    .addComponent(cargarDatos, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelPrincipalLayout.createSequentialGroup()
                                 .addComponent(fieldBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 451, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(botonBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 15, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(jScrollPane6)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrincipalLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -222,17 +242,18 @@ public class VistaGráfica extends javax.swing.JFrame {
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonLimpiarEntrada)
-                    .addComponent(botonGuardarArchivo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonGuardarArchivo)
+                    .addComponent(botonCopiarTexto))
                 .addGap(32, 32, 32)
                 .addGroup(panelPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(limpiarConsola)
-                    .addComponent(botonAnalizar))
+                    .addComponent(botonAnalizar)
+                    .addComponent(botonLimpiarEntrada))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -437,11 +458,12 @@ public class VistaGráfica extends javax.swing.JFrame {
     }//GEN-LAST:event_cargarDatosActionPerformed
 
     private void botonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarActionPerformed
-        String fRojo ="\033[31m";
-        String palabra = fieldBuscador.getText()+fRojo;
-        areaBuscador.setText(palabra);
-        System.out.println(palabra);
+       buscarpalabra(areaBuscador,fieldBuscador.getText());
     }//GEN-LAST:event_botonBuscarActionPerformed
+
+    private void botonCopiarTextoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCopiarTextoActionPerformed
+        areaBuscador.setText(textAreaEntradaTexto.getText());
+    }//GEN-LAST:event_botonCopiarTextoActionPerformed
     public static void agregarReporteError(Object row[]){
        ((DefaultTableModel) tablaErroresReportes.getModel()).addRow(row);
     }
@@ -449,7 +471,28 @@ public class VistaGráfica extends javax.swing.JFrame {
          ((DefaultTableModel) tablaReportesTokens.getModel()).addRow(ror);
     }
     
-   
+   public void buscarpalabra(JTextArea area1, String texto) {
+        if (texto.length() >= 1) {
+            DefaultHighlighter.DefaultHighlightPainter highlightPainter = new DefaultHighlighter.DefaultHighlightPainter(Color.GREEN);
+            Highlighter h = area1.getHighlighter();
+            h.removeAllHighlights();
+            String text = area1.getText();
+            String caracteres = texto;
+            Pattern p = Pattern.compile("(?i)" + caracteres);
+            Matcher m = p.matcher(text);
+            while (m.find()) {
+                try {
+                    h.addHighlight(m.start(), m.end(), highlightPainter);
+                } catch (BadLocationException ex) {
+                    Logger.getLogger(VistaGráfica.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(area1, "la palabra a buscar no puede ser vacia");
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -499,6 +542,7 @@ public class VistaGráfica extends javax.swing.JFrame {
     private javax.swing.JTextArea areaBuscador;
     private javax.swing.JButton botonAnalizar;
     private javax.swing.JButton botonBuscar;
+    private javax.swing.JButton botonCopiarTexto;
     private javax.swing.JButton botonGuardarArchivo;
     private javax.swing.JButton botonLimpiarEntrada;
     private javax.swing.JButton cargarDatos;
