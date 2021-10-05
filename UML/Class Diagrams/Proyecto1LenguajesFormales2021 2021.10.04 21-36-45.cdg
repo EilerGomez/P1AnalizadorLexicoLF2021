@@ -2,7 +2,7 @@
 
 <ClassDiagram name="Proyecto1LenguajesFormales2021">
   <ClassDiagramComponents>
-    <Class name="Main" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="20.0" yPosition="20.0">
+    <Class name="Main" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="1117.0" yPosition="1047.0">
       <Fields/>
       <Constructors/>
       <Methods>
@@ -11,7 +11,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="AnalizadorTokens" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" isFinal="true" xPosition="320.0" yPosition="20.0">
+    <Class name="AnalizadorTokens" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" isFinal="true" xPosition="202.0" yPosition="513.0">
       <Fields>
         <Field name="palabra" type="String" visibility="package"/>
         <Field name="mensaje" type="String" visibility="package"/>
@@ -76,7 +76,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="ReporteErrores" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="620.0" yPosition="20.0">
+    <Class name="ReporteErrores" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="860.0" yPosition="65.0">
       <Fields>
         <Field name="analizador" type="AnalizadorTokens" visibility="package"/>
       </Fields>
@@ -87,7 +87,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="ArchivosLeerEscribir" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="920.0" yPosition="20.0">
+    <Class name="ArchivosLeerEscribir" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="860.0" yPosition="484.0">
       <Fields>
         <Field name="bufer" type="BufferedReader" visibility="package"/>
         <Field name="linea" type="String" visibility="package"/>
@@ -114,7 +114,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="VistaGráfica" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="1220.0" yPosition="20.0">
+    <Class name="VistaGráfica" package="com.mycompany.proyecto1lenguajesformales2021" visibility="public" xPosition="1724.0" yPosition="133.0">
       <Fields>
         <Field name="analizador" type="AnalizadorTokens" visibility="package"/>
         <Field name="arch" type="ArchivosLeerEscribir" visibility="package"/>
@@ -155,8 +155,7 @@
       </Constructors>
       <Methods>
         <Method name="inicializarVariables" returnType="void" visibility="public"/>
-        <Method name="initComponents" returnType="// &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents
-void" visibility="private"/>
+        <Method name="initComponents" returnType="// &lt;editor-fold defaultstate=&quot;collapsed&quot; desc=&quot;Generated Code&quot;&gt;//GEN-BEGIN:initComponents void" visibility="private"/>
         <Method name="botonGuardarArchivoActionPerformed" returnType="void" visibility="private">
           <Argument type="java.awt.event.ActionEvent" name="evt"/>
         </Method>
@@ -206,9 +205,10 @@ void" visibility="private"/>
     </Class>
   </ClassDiagramComponents>
   <ClassDiagramRelations>
+    <HasRelation name="reportError" source="com.mycompany.proyecto1lenguajesformales2021.VistaGráfica" target="com.mycompany.proyecto1lenguajesformales2021.ReporteErrores" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation name="Depende" source="com.mycompany.proyecto1lenguajesformales2021.Main" target="com.mycompany.proyecto1lenguajesformales2021.VistaGráfica" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="arch" source="com.mycompany.proyecto1lenguajesformales2021.VistaGráfica" target="com.mycompany.proyecto1lenguajesformales2021.ArchivosLeerEscribir" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="analizador" source="com.mycompany.proyecto1lenguajesformales2021.ReporteErrores" target="com.mycompany.proyecto1lenguajesformales2021.AnalizadorTokens" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
-    <HasRelation name="reportError" source="com.mycompany.proyecto1lenguajesformales2021.VistaGráfica" target="com.mycompany.proyecto1lenguajesformales2021.ReporteErrores" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="analizador" source="com.mycompany.proyecto1lenguajesformales2021.VistaGráfica" target="com.mycompany.proyecto1lenguajesformales2021.AnalizadorTokens" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
     <HasRelation name="analizador" source="com.mycompany.proyecto1lenguajesformales2021.ArchivosLeerEscribir" target="com.mycompany.proyecto1lenguajesformales2021.AnalizadorTokens" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
   </ClassDiagramRelations>
